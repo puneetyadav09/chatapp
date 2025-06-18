@@ -1,71 +1,63 @@
 # 💬 Real-Time Chat Application
 
-A secure, scalable real-time chat platform built with **ReactJS**, **Spring Boot**, **WebSocket**, **Redis**, and **JWT** authentication. Supports 1-on-1 and group chats with features like message delivery status, user presence, media sharing, and end-to-end encryption.
+A modern and scalable real-time chat platform powered by **React.js**, **Node.js**, **Socket.IO**, **MongoDB**, and **Supabase**. It supports one-on-one and group conversations, live typing indicators, media sharing, user presence tracking, and Supabase-based authentication.
 
 ---
 
 ## 🚀 Features
 
-### ✅ User Authentication & Authorization
-- JWT-based login/register
+### ✅ Authentication & Authorization
+- Secure login/signup using Supabase Auth
 - Role-based access control (Admin/User)
-- OAuth (Google/Facebook) ready
+- JWT session management
 
 ### 💬 Real-Time Messaging
-- One-to-one direct chat
-- Group chat rooms
-- Typing indicators & delivery status
-- Seen/unseen messages
-- STOMP over WebSocket
+- One-to-one and group messaging
+- Socket.IO for real-time communication
+- Typing indicators & seen/delivered status
 
-### 📡 Presence & Notifications
-- Online/offline user tracking
-- Push notifications (FCM/Web Push)
-- Toast notifications
+### 📎 Media Sharing
+- Upload images, videos, and files via Supabase Storage
+- Preview & download shared media
+- File type & size validation
 
-### 📎 Media & File Sharing
-- Upload and preview images, videos, docs
-- Download shared files
-- File size/type validation
+### 🔔 Notifications & Presence
+- Online/offline user status
+- Toast message notifications
+- Push notification integration ready (FCM/Web Push)
 
 ### 🔐 Security
-- End-to-End Encryption (Signal Protocol integration ready)
-- HTTPS only
-- Rate limiting & XSS protection
+- HTTPS-only by default
 - JWT-based session management
-
-### 🔍 Search & Filters
-- Search messages/users
-- Filter chats by media/date
+- Rate limiting, sanitization, and input validation
 
 ---
 
 ## 🛠️ Tech Stack
 
 ### Frontend
-- ReactJS (Vite) + Tailwind CSS
-- Redux Toolkit + React Router + Axios
-- Socket.IO client
-- Progressive Web App (PWA) ready
+- React.js (Vite)
+- Tailwind CSS
+- Redux Toolkit
+- React Router
+- Socket.IO Client
 
 ### Backend
-- Java 17 + Spring Boot 3
-- Spring Security + JWT + CORS
-- WebSocket with STOMP
-- Redis Pub/Sub for message broadcasting
-- MySQL/PostgreSQL for persistence
-- Hibernate/JPA + Lombok
+- Node.js + Express
+- Socket.IO
+- MongoDB + Mongoose
+- Supabase (Auth & Storage)
+- JWT Authentication
 
-### DevOps & Deployment
-- Dockerized backend
-- CI/CD via GitHub Actions (optional)
+### Deployment
 - Frontend: Vercel / Netlify
-- Backend: Railway / Render / AWS EC2
-- DB: MongoDB Atlas / Supabase / RDS
+- Backend: Render / Railway / AWS EC2
+- DB: MongoDB Atlas
+- Supabase for storage & auth
 
 ---
 
-## 🗂 Folder Structure
+## 📁 Project Structure
 
 ### Frontend (`client/`)
     client/
@@ -74,6 +66,10 @@ A secure, scalable real-time chat platform built with **ReactJS**, **Spring Boot
     │ ├── assets/
     │ ├── components/
     │ ├── features/
+    │ │ ├── auth/
+    │ │ ├── chat/
+    │ │ ├── rooms/
+    │ │ └── notifications/
     │ ├── hooks/
     │ ├── pages/
     │ ├── redux/
@@ -89,90 +85,90 @@ A secure, scalable real-time chat platform built with **ReactJS**, **Spring Boot
 
 ### Backend (`server/`)
     server/
-    ├── src/main/java/com/chatapp/
-    │ ├── config/
-    │ ├── controller/
-    │ ├── dto/
-    │ ├── entity/
-    │ ├── exception/
-    │ ├── repository/
-    │ ├── security/
-    │ ├── service/
-    │ ├── websocket/
-    │ └── ChatAppApplication.java
-    ├── src/main/resources/
-    │ ├── application.properties
-    │ └── static/
-    ├── src/test/
-    ├── Dockerfile
-    └── pom.xml
-
-
+    ├── controllers/
+    ├── models/
+    ├── routes/
+    ├── services/
+    ├── socket/
+    ├── middlewares/
+    ├── config/
+    ├── uploads/
+    ├── .env
+    ├── app.js
+    ├── server.js
+    └── package.json
 
 ---
 
-## 🧪 Setup & Installation
+## ⚙️ Setup & Installation
 
 ### Prerequisites
-- Java 17+
-- Node.js 18+
-- Docker (for Redis and backend container)
-- MySQL/PostgreSQL instance (local or cloud)
+- Node.js (v18+)
+- MongoDB (local or MongoDB Atlas)
+- Supabase account and project
 
-### Backend Setup
+
+## 🔧 Backend Setup
+
 ```bash
 cd server
-./mvnw clean install
-docker run --name redis -p 6379:6379 -d redis
-./mvnw spring-boot:run
+npm install
+```
+
+### Create .env in server/:
+```bash
+PORT=8080
+MONGO_URI=mongodb+srv://<user>:<pass>@cluster.mongodb.net/chatapp
+JWT_SECRET=your_jwt_secret
+SUPABASE_URL=https://xyzcompany.supabase.co
+SUPABASE_KEY=your_service_role_key
 ```
 
 
-### Frontend Setup
+### Run server:
 ```bash
-cd client
-npm install
 npm run dev
 ```
 
 
-### Environment Variables
-client/.env
+## 💻 Frontend Setup
+```bash
+cd client
+npm install
+```
+
+### Create .env in client/:
 ```bash
 VITE_API_URL=http://localhost:8080/api
 VITE_SOCKET_URL=http://localhost:8080
+VITE_SUPABASE_URL=https://xyzcompany.supabase.co
+VITE_SUPABASE_KEY=your_anon_key
 ```
 
-server/src/main/resources/application.properties
+### Start the app:
 ```bash
-spring.datasource.url=jdbc:mysql://localhost:3306/chatapp
-spring.datasource.username=your_username
-spring.datasource.password=your_password
-jwt.secret=your_jwt_secret
+npm run dev
 ```
 
+## 🔐 Security & Auth
+1. Supabase handles OAuth and Email/Password login
+2. JWT used for secure backend APIs.
+3. Authorization middleware protects chat endpoints
 
-### 🔐 Security & Encryption
-This project uses JWT for secure authentication and is structured to integrate Signal Protocol for end-to-end message encryption, ensuring data privacy and integrity between users.
+## 📱 Mobile Friendly
+1. Fully responsive using Tailwind CSS
+2. Optimized UI for desktop, tablets, and mobile
 
+## 🧩 Future Enhancements
+1. 📲 React Native mobile app
+2. 📞 Video/audio call integration (WebRTC)
+3. 🤖 AI chatbot using OpenAI API
+4. 📊 Admin dashboard with analytics
+5. 🧾 Chat export (PDF/CSV)
 
-### 📱 Mobile Responsive
-The UI is fully responsive, built with Tailwind CSS and designed to work on all screen sizes including tablets and mobile devices.
+## 👨‍💻 Author
+Puneet Yadav
 
-
-### 🧩 Future Enhancements
-1. 📲 Native mobile app (React Native)
-
-2. 🧠 AI chatbot integration (OpenAI API)
-
-3. 📷 Video/voice call support
-
-4. 🧾 Chat export as PDF
-
-5. 📈 Admin dashboard and analytics
-
-
-### 👨‍💻 Author
-Puneet
 GitHub: @puneetyadav09
+
 Email: puneet932004@gmail.com
